@@ -1,31 +1,28 @@
-import com.sun.source.tree.LiteralTree;
-import java.lang.reflect.*;
 import java.util.*;
 
 public class Partie {
     private List <Personnage> chListPerso ;
     private Map <Personnage, Integer> chVoteLoup = new HashMap();
     private Map <Personnage, Integer> chVoteJour = new HashMap();
+    private int chNbJour = 1;
 
-    public Partie() {
-        chListPerso = new ArrayList<>();
-
-        for (int i = 1; i < 7; i++) {
-            chListPerso.add(new Villageois("J" + i, this));
-        }
-        for (int i = 7; i < 9; i++) {
-            chListPerso.add(new LoupGarou("J" + i, this));
+    public Partie(List<Personnage> parListPerso) {
+        chListPerso = parListPerso;
+        for (Iterator i=chListPerso.iterator();i.hasNext();){
+            Personnage p = (Personnage) i.next();
+            p.setPartie(this);
         }
         nuit();
     }
 
     public void nuit() {
-        afficheInfo("Debut de la Nuit :");
+        afficheInfo("Debut de la Nuit n"+chNbJour+++" :");
         resetVoteLoup();
         for (Iterator iterator = getJoueurVivant().iterator(); iterator.hasNext(); ) {
             Personnage joueur = (Personnage) iterator.next();
             joueur.actionNuit();
         }
+        System.out.println(getMaxVote(chVoteLoup));
         mort(getMaxVote(chVoteLoup));
         if (finDePartie()){fin();}
         else {jour();}
@@ -33,7 +30,7 @@ public class Partie {
     }
 
     public void jour(){
-        afficheInfo("Debut du jour :");
+        afficheInfo("Debut du jour n"+chNbJour+":");
         resetVoteVillage();
         for (Iterator iterator = getJoueurVivant().iterator(); iterator.hasNext(); ) {
             Personnage joueur = (Personnage) iterator.next();
@@ -101,6 +98,17 @@ public class Partie {
         for (Iterator iterator = chListPerso.iterator();iterator.hasNext();){
             Personnage joueur = (Personnage) iterator.next();
             if (joueur.getStatut()== Statut.Vivant){
+                listPersoDuCamp.add(joueur);
+            }
+        }
+        return listPersoDuCamp;
+    }
+
+    public Set <Personnage> getJoueurVivant(Personnage parPersonnage){
+        Set <Personnage> listPersoDuCamp = new TreeSet<>();
+        for (Iterator iterator = chListPerso.iterator();iterator.hasNext();){
+            Personnage joueur = (Personnage) iterator.next();
+            if (joueur.getStatut()== Statut.Vivant && joueur != parPersonnage){
                 listPersoDuCamp.add(joueur);
             }
         }

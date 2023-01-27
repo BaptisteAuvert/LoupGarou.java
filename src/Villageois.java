@@ -1,7 +1,7 @@
 public class Villageois extends Personnage {
 
-    public Villageois(String parNom, Partie parPartie) {
-        super(parNom, parPartie, Camps.Village,100,Camps.Village);
+    public Villageois(String parNom) {
+        super(parNom, Camps.Village,100,Camps.Village);
     }
 
     public void actionNuit(){
@@ -9,7 +9,7 @@ public class Villageois extends Personnage {
     }
 
     public Personnage actionJour(){
-        return super.getPersAleatoire((super.chPartie.getJoueurVivant()));
+        return super.getPersAleatoire((super.chPartie.getJoueurVivant(this)));
     }
 
 }

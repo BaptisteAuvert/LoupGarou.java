@@ -6,17 +6,20 @@ public abstract class Personnage implements Comparable<Personnage> {
     protected Partie chPartie;
     protected Statut chStatut = Statut.Vivant;
     protected Camps chCamps;
-    protected Map<Personnage, Function> chActionMort;
+    protected List<Personnage> chActionMort;
     protected int chPriorite;
     protected Camps chCampsVisible;
 
-    public Personnage(String parNom, Partie parPartie,Camps parCamps,int parPriorite,Camps parCampsVisible){
+    public Personnage(String parNom,Camps parCamps,int parPriorite,Camps parCampsVisible){
         chNom = parNom;
-        chPartie = parPartie;
         chCamps = parCamps;
-        chActionMort = new HashMap<>();
+        chActionMort = new ArrayList<>();
         chPriorite = parPriorite;
         chCampsVisible = parCampsVisible;
+    }
+
+    public void setPartie(Partie parPartie){
+        chPartie = parPartie;
     }
 
     public String getNom(){ return chNom;}
@@ -34,12 +37,18 @@ public abstract class Personnage implements Comparable<Personnage> {
         return (Personnage) iterator.next();
     }
 
-    public void addActionMort(Personnage parPerso, Function parFunction){chActionMort.put(parPerso,parFunction);}
+    public void addActionMort(Personnage parPerso){chActionMort.add(parPerso);}
 
     public void mort(){
-        chPartie.afficheInfo(chNom + "est mort il était "+ chCamps);
+        for (Iterator i=chActionMort.iterator();i.hasNext();){
+            Personnage p = (Personnage) i.next();
+            p.postMort();
+        }
+        chPartie.afficheInfo("  -"+chNom + " est mort,il etait "+ chCamps);
         chStatut = Statut.Mort;
     }
+
+    public void postMort(){return;}
 
     public void actionNuit(){
         return;
