@@ -1,12 +1,12 @@
 import java.util.*;
-import java.util.function.*;
 
 public abstract class Personnage implements Comparable<Personnage> {
+    protected ListPersonnage chJoueurGentils = new ListPersonnage();
     protected String chNom;
     protected Partie chPartie;
     protected Statut chStatut = Statut.Vivant;
-    protected Camps chCamps;
     protected int chPriorite;
+    protected Camps chCamps;
     protected Camps chCampsVisible;
 
     public Personnage(String parNom,Camps parCamps,int parPriorite,Camps parCampsVisible){
@@ -21,11 +21,10 @@ public abstract class Personnage implements Comparable<Personnage> {
     }
 
     public String getNom(){ return chNom;}
-    public Partie getPartie(){ return chPartie;}
     public Camps getCamps(){ return chCamps;}
     public Statut getStatut(){ return chStatut;}
 
-    public Personnage getPersAleatoire(Set<Personnage> parList){
+    public static Personnage getPersAleatoire(ListPersonnage parList){
         Random random = new Random();
         int randomIndex = random.nextInt(parList.size());
         Iterator iterator = parList.iterator();
@@ -40,17 +39,13 @@ public abstract class Personnage implements Comparable<Personnage> {
         chStatut = Statut.Mort;
     }
 
-    public void actionNuit(){
-        return;
-    }
+    public void actionNuit(){}
 
     public Personnage actionJour(){
-        return null;
+        return getPersAleatoire((chPartie.getJoueurVivant().soustraire(chJoueurGentils)));
     }
 
-    public void informeMort(Personnage parPersonnage){
-        return;
-    }
+    public void informeMort(Personnage parPersonnage){}
 
     public int compareTo(Personnage parPersonnage){
         if (chPriorite > parPersonnage.chPriorite){return 1;}
@@ -66,7 +61,6 @@ public abstract class Personnage implements Comparable<Personnage> {
     }
 
     public String toString(){
-        return "Joueur : "+ chNom + " est dans le camps : "+ chCamps+" ";
+        return "Joueur : "+ chNom ;
     }
-
 }

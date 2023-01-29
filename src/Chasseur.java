@@ -2,27 +2,19 @@ import java.util.*;
 
 public class Chasseur extends Personnage {
     private boolean actionUnique = true;
+
     public Chasseur(String parNom) {
         super(parNom, Camps.Village,100,Camps.Village);
-    }
-
-    public void actionNuit(){
-
+        chJoueurGentils.add(this);
     }
 
     public void informeMort(Personnage parPersonnage){
         if (parPersonnage == this){
-            Set<Personnage> joueurs = chPartie.getJoueurVivant(this);
+            ListPersonnage joueurs = chPartie.getJoueurVivant();
             Personnage persoAbattu = getPersAleatoire(joueurs);
             chPartie.afficheInfo("Le Chasseur est mort, il desside de tuer =>"+persoAbattu.chNom);
             chPartie.mort(persoAbattu);
         }
     }
-
-
-    public Personnage actionJour(){
-        return getPersAleatoire((chPartie.getJoueurVivant(this)));
-    }
-
 }
 

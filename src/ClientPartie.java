@@ -2,19 +2,21 @@ import java.util.*;
 
 public class ClientPartie {
     public static void main(String[] args) {
-        List<Personnage> chListPerso = new ArrayList<>();
+        ListPersonnage ListPerso = new ListPersonnage();
 
         for (int i = 1; i < 7; i++) {
-            chListPerso.add(new Villageois("J" + i ));
+            ListPerso.add(new Villageois("J" + i ));
         }
         for (int i = 7; i < 10; i++) {
-            chListPerso.add(new LoupGarou("J" + i ));
+            ListPerso.add(new LoupGarou("J" + i ));
         }
+        ListPerso.add(new Sorciere("Sorciere" ));
+        ListPerso.add(new Chasseur("Chasseur" ));
+        ListPerso.add(new EnfantLoup("EnfantLoup" ));
+        ListPerso.add(new Cupidon("Cupidon" ));
+        ListPerso.add(new Voyante("Voyante" ));
 
-        chListPerso.add(new Cupidon("Voyante" ));
-        //Personnage j1 = new Voyante("Voyante" );
 
-
-        Partie partie = new Partie(chListPerso);
+        Partie partie = new Partie(ListPerso);
     }
 }

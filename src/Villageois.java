@@ -2,14 +2,10 @@ public class Villageois extends Personnage {
 
     public Villageois(String parNom) {
         super(parNom, Camps.Village,100,Camps.Village);
-    }
-
-    public void actionNuit(){
-        return;
+        chJoueurGentils.add(this);
     }
 
     public Personnage actionJour(){
-        return getPersAleatoire((chPartie.getJoueurVivant(this)));
+        return getPersAleatoire(chPartie.getJoueurVivant().soustraire(this));
     }
-
 }

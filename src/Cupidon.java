@@ -3,27 +3,34 @@ import java.util.*;
 public class Cupidon extends Personnage {
     private boolean actionUnique = true;
     private Personnage[] chAmoureux = new Personnage[2];
+    private boolean chAmoureuxMort = false;
+
     public Cupidon(String parNom) {
         super(parNom, Camps.Village,40,Camps.Village);
+        chJoueurGentils.add(this);
     }
 
     public void actionNuit(){
         if (actionUnique){
-            Set<Personnage> joueurs = chPartie.getJoueurVivant(this);
+            ListPersonnage joueurs = chPartie.getJoueurVivant().soustraire(this);
             chAmoureux[0] = getPersAleatoire(joueurs);
-            joueurs.remove(chAmoureux[0]);
-            chAmoureux[1] = getPersAleatoire(joueurs);
+            chAmoureux[1] = getPersAleatoire(joueurs.soustraire(chAmoureux[0]));
+            chPartie.afficheInfo("Cupidon a vise =>"+chAmoureux[0]+" - "+chAmoureux[1]);
+            actionUnique = false;
         }
-        System.out.println("Amoureux : " + chAmoureux[0].chNom+" - "+chAmoureux[1].chNom);
     }
 
     public void informeMort(Personnage parPersonnage){
-        if (parPersonnage == chAmoureux[0] ) {
-            chPartie.mort(chAmoureux[1]);
+        if (!(chAmoureuxMort)){
+            chAmoureuxMort = true;
+            if (parPersonnage == chAmoureux[0] ) {
+                chPartie.mort(chAmoureux[1]);
+            }
+            else if (parPersonnage ==chAmoureux[1]){
+                chPartie.mort(chAmoureux[0]);
+            }
         }
-        else if (parPersonnage ==chAmoureux[1]){
-            chPartie.mort(chAmoureux[0]);
-        }
+
     }
 
     public boolean finDeParty(){
@@ -35,11 +42,11 @@ public class Cupidon extends Personnage {
                 return true;
             }
         }
-        return false;
+        return super.finDeParty() || false;
     }
 
     public Personnage actionJour(){
-        return getPersAleatoire((chPartie.getJoueurVivant(this)));
+        return getPersAleatoire((chPartie.getJoueurVivant().soustraire(this)));
     }
 
 }

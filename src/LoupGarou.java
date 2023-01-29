@@ -6,8 +6,13 @@ public class LoupGarou extends Personnage {
         super(parNom, Camps.Loup, 50, Camps.Loup);
     }
 
+    public void actionNuit() {
+        Personnage persoMange = getPersAleatoire(chPartie.getJoueurDuCamp(Camps.Village));
+        chPartie.addVoteLoup(persoMange);
+    }
+
     public Personnage actionJour(){
-        return getPersAleatoire((Set<Personnage>) chPartie.getJoueurDuCamp(Camps.Village));
+        return getPersAleatoire(chPartie.getJoueurDuCamp(Camps.Village));
     }
 
 
