@@ -4,6 +4,7 @@ public class Partie {
     private List <Personnage> chListPerso ;
     private Map <Personnage, Integer> chVoteLoup = new HashMap();
     private Map <Personnage, Integer> chVoteJour = new HashMap();
+    private List <Personnage> chGagnants = new ArrayList<>();
     private int chNbJour = 1;
 
     public Partie(List<Personnage> parListPerso) {
@@ -16,13 +17,13 @@ public class Partie {
     }
 
     public void nuit() {
+        afficheInfo("-----------------------------------------------------------------------------------");
         afficheInfo("Debut de la Nuit n"+chNbJour+++" :");
         resetVoteLoup();
         for (Iterator iterator = getJoueurVivant().iterator(); iterator.hasNext(); ) {
             Personnage joueur = (Personnage) iterator.next();
             joueur.actionNuit();
         }
-        System.out.println(getMaxVote(chVoteLoup));
         mort(getMaxVote(chVoteLoup));
         if (finDePartie()){fin();}
         else {jour();}
@@ -30,6 +31,7 @@ public class Partie {
     }
 
     public void jour(){
+        afficheInfo("=============");
         afficheInfo("Debut du jour n"+chNbJour+":");
         resetVoteVillage();
         for (Iterator iterator = getJoueurVivant().iterator(); iterator.hasNext(); ) {
@@ -44,10 +46,12 @@ public class Partie {
     }
 
     private boolean finDePartie(){
-        if (getJoueurDuCamp(Camps.Loup).size()%getJoueurVivant().size() == 0){
-            return true;
+        boolean fin = false;
+        for (Iterator i= chListPerso.iterator();i.hasNext();){
+            Personnage joueur = (Personnage) i.next();
+             fin = (fin||joueur.finDeParty());
         }
-        return false;
+        return fin;
     }
 
     private void fin(){
@@ -116,15 +120,20 @@ public class Partie {
     }
 
     public Map<Personnage, Integer> getChVoteLoup() {return chVoteLoup;}
+
     public Personnage getMaxVote(Map<Personnage,Integer> parMap){
         Personnage persoVoteMax = null;
         for (Iterator i = parMap.keySet().iterator();i.hasNext();){
             Personnage joueur = (Personnage) i.next();
-            if (persoVoteMax == null || parMap.get(joueur)>parMap.get(persoVoteMax)){
+            if ((persoVoteMax == null || parMap.get(joueur)>parMap.get(persoVoteMax)) && parMap.get(joueur)!=0){
                 persoVoteMax = joueur;
             }
         }
         return persoVoteMax;
+    }
+
+    public void addGagnant(Personnage parPersonnage){
+        chGagnants.add(parPersonnage);
     }
 
     public void afficheInfo(String parString){

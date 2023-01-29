@@ -7,21 +7,21 @@ public class Chasseur extends Personnage {
     }
 
     public void actionNuit(){
-        if (actionUnique){
-            super.addActionMort(this);
-            actionUnique = false;
+
+    }
+
+    public void informeMort(Personnage parPersonnage){
+        if (parPersonnage == this){
+            Set<Personnage> joueurs = chPartie.getJoueurVivant(this);
+            Personnage persoAbattu = getPersAleatoire(joueurs);
+            chPartie.afficheInfo("Le Chasseur est mort, il desside de tuer =>"+persoAbattu.chNom);
+            chPartie.mort(persoAbattu);
         }
     }
 
-    public void postMort() {
-        Set<Personnage> joueurs = super.chPartie.getJoueurVivant(this);
-        Personnage persoAbattu = super.getPersAleatoire(joueurs);
-        super.chPartie.afficheInfo("Le Chasseur est mort, il desside de tuer =>"+persoAbattu.chNom);
-        super.chPartie.mort(persoAbattu);
-    }
 
     public Personnage actionJour(){
-        return super.getPersAleatoire((super.chPartie.getJoueurVivant(this)));
+        return getPersAleatoire((chPartie.getJoueurVivant(this)));
     }
 
 }

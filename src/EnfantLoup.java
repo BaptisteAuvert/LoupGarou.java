@@ -1,29 +1,33 @@
+import java.security.*;
 import java.util.*;
 
 public class EnfantLoup extends Personnage {
     private boolean actionUnique = true;
+    private Personnage chModel;
     public EnfantLoup(String parNom) {
         super(parNom, Camps.Village,40,Camps.Village);
     }
 
     public void actionNuit(){
         if (actionUnique){
-            Set<Personnage> joueurs = super.chPartie.getJoueurVivant(this);
-            Personnage persoModele = super.getPersAleatoire(joueurs);
-            persoModele.addActionMort(this);
-            super.chPartie.afficheInfo("L'enfant loup a pris comme modele :"+persoModele.chNom);
+            Set<Personnage> joueurs = chPartie.getJoueurVivant(this);
+            chModel = getPersAleatoire(joueurs);
+            chPartie.afficheInfo("L'enfant loup a pris comme modele :"+chModel.chNom);
             actionUnique = false;
+        }
+        if (chCamps == Camps.Loup){
+            Personnage persoMange = getPersAleatoire(chPartie.getJoueurDuCamp(Camps.Village));
+            chPartie.addVoteLoup(persoMange);
         }
     }
 
-    public void postMort() {
-        super.chPartie.afficheInfo("L'enfant loup change de role");
-        super.chCamps=Camps.Loup;
-        super.chCampsVisible=Camps.Loup;
+    public void informeMort(Personnage parPersonnage){
+        chCampsVisible =Camps.Loup;
+        chCamps = Camps.Loup;
     }
 
     public Personnage actionJour(){
-        return super.getPersAleatoire((super.chPartie.getJoueurVivant(this)));
+        return getPersAleatoire((chPartie.getJoueurVivant(this)));
     }
 
 }

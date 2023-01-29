@@ -6,14 +6,12 @@ public abstract class Personnage implements Comparable<Personnage> {
     protected Partie chPartie;
     protected Statut chStatut = Statut.Vivant;
     protected Camps chCamps;
-    protected List<Personnage> chActionMort;
     protected int chPriorite;
     protected Camps chCampsVisible;
 
     public Personnage(String parNom,Camps parCamps,int parPriorite,Camps parCampsVisible){
         chNom = parNom;
         chCamps = parCamps;
-        chActionMort = new ArrayList<>();
         chPriorite = parPriorite;
         chCampsVisible = parCampsVisible;
     }
@@ -37,29 +35,34 @@ public abstract class Personnage implements Comparable<Personnage> {
         return (Personnage) iterator.next();
     }
 
-    public void addActionMort(Personnage parPerso){chActionMort.add(parPerso);}
-
     public void mort(){
-        for (Iterator i=chActionMort.iterator();i.hasNext();){
-            Personnage p = (Personnage) i.next();
-            p.postMort();
-        }
         chPartie.afficheInfo("  -"+chNom + " est mort,il etait "+ chCamps);
         chStatut = Statut.Mort;
     }
 
-    public void postMort(){return;}
-
     public void actionNuit(){
         return;
     }
+
     public Personnage actionJour(){
         return null;
+    }
+
+    public void informeMort(Personnage parPersonnage){
+        return;
     }
 
     public int compareTo(Personnage parPersonnage){
         if (chPriorite > parPersonnage.chPriorite){return 1;}
         else{return -1;}
+    }
+
+    public boolean finDeParty(){
+        if (chPartie.getJoueurVivant().size() == chPartie.getJoueurDuCamp(chCamps).size()){
+            chPartie.addGagnant(this);
+            return true;
+        }
+        return false;
     }
 
     public String toString(){

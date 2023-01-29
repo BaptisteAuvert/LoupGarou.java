@@ -9,7 +9,7 @@ public class Villageois extends Personnage {
     }
 
     public Personnage actionJour(){
-        return super.getPersAleatoire((super.chPartie.getJoueurVivant(this)));
+        return getPersAleatoire((chPartie.getJoueurVivant(this)));
     }
 
 }

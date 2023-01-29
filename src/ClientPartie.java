@@ -7,13 +7,12 @@ public class ClientPartie {
         for (int i = 1; i < 7; i++) {
             chListPerso.add(new Villageois("J" + i ));
         }
-        for (int i = 7; i < 9; i++) {
+        for (int i = 7; i < 10; i++) {
             chListPerso.add(new LoupGarou("J" + i ));
         }
 
-        chListPerso.add(new EnfantLoup("Denis" ));
-        chListPerso.add(new Chasseur("Mathys" ));
-        chListPerso.add(new Sorciere("Forsong" ));
+        chListPerso.add(new Cupidon("Voyante" ));
+        //Personnage j1 = new Voyante("Voyante" );
 
 
         Partie partie = new Partie(chListPerso);

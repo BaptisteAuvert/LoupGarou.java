@@ -12,19 +12,21 @@ public class Sorciere extends Personnage {
     public void actionNuit(){
         Random random = new Random();
         int randomIndex = random.nextInt(3);
-        if (chPotionSoin && randomIndex==0){
+        if (chPotionSoin && (randomIndex==0 || chPartie.getMaxVote(chPartie.getChVoteLoup())==this)){
             System.out.println("Soin");
-            super.chPartie.resetVoteLoup();
+            chPartie.resetVoteLoup();
+            chPotionSoin = false;
         }
         else if (chPotionMort && randomIndex==1){
             System.out.println("Poison");
-            Set<Personnage> joueurs = super.chPartie.getJoueurVivant(this);
-            super.chPartie.mort(super.getPersAleatoire(joueurs));
+            Set<Personnage> joueurs = chPartie.getJoueurVivant(this);
+            chPartie.mort(getPersAleatoire(joueurs));
+            chPotionMort = false;
         }
     }
 
     public Personnage actionJour(){
-        return super.getPersAleatoire((super.chPartie.getJoueurVivant(this)));
+        return getPersAleatoire((chPartie.getJoueurVivant(this)));
     }
 
 }
