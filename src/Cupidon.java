@@ -7,14 +7,14 @@ public class Cupidon extends Personnage {
 
     public Cupidon(String parNom) {
         super(parNom, Camps.Village,40,Camps.Village);
-        chJoueurGentils.add(this);
+        chJoueursAllies.add(this);
     }
 
     public void actionNuit(){
         if (actionUnique){
             ListPersonnage joueurs = chPartie.getJoueurVivant().soustraire(this);
-            chAmoureux[0] = getPersAleatoire(joueurs);
-            chAmoureux[1] = getPersAleatoire(joueurs.soustraire(chAmoureux[0]));
+            chAmoureux[0] = (joueurs).getValeurAleatoire();
+            chAmoureux[1] = joueurs.soustraire(chAmoureux[0]).getValeurAleatoire();
             chPartie.afficheInfo("Cupidon a vise =>"+chAmoureux[0]+" - "+chAmoureux[1]);
             actionUnique = false;
         }
@@ -46,7 +46,7 @@ public class Cupidon extends Personnage {
     }
 
     public Personnage actionJour(){
-        return getPersAleatoire((chPartie.getJoueurVivant().soustraire(this)));
+        return (chPartie.getJoueurVivant().soustraire(this).getValeurAleatoire());
     }
 
 }

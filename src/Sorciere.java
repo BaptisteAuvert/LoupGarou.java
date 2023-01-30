@@ -20,13 +20,13 @@ public class Sorciere extends Personnage {
         else if (chPotionMort && randomIndex==1){
             System.out.println("Poison");
             ListPersonnage joueurs = chPartie.getJoueurVivant().soustraire(this);
-            chPartie.mort(getPersAleatoire(joueurs));
+            chPartie.mort(joueurs.getValeurAleatoire());
             chPotionMort = false;
         }
     }
 
     public Personnage actionJour(){
-        return getPersAleatoire((chPartie.getJoueurVivant().soustraire(this)));
+        return (chPartie.getJoueurVivant().soustraire(this).getValeurAleatoire());
     }
 
 }

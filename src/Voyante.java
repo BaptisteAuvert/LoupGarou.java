@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class Voyante extends Personnage {
     private boolean actionUnique = true;
     private ListPersonnage  chMechants = new ListPersonnage();
@@ -8,7 +6,7 @@ public class Voyante extends Personnage {
 
     public Voyante(String parNom) {
         super(parNom, Camps.Village,90,Camps.Village);
-        chJoueurGentils.add(this);
+        chJoueursAllies.add(this);
     }
 
     public void actionNuit(){
@@ -18,10 +16,11 @@ public class Voyante extends Personnage {
             actionUnique = false;
         }
 
-        Personnage joueursAlyse = getPersAleatoire(chRoleInconnu);
+        Personnage joueursAlyse = (chRoleInconnu).getValeurAleatoire();
         chPartie.afficheInfo("La voyante analyse "+joueursAlyse.chNom+", il est "+joueursAlyse.chCampsVisible);
         if (joueursAlyse.chCampsVisible==Camps.Loup){chMechants.add(joueursAlyse);}
-        else {chJoueurGentils.add(joueursAlyse);}
+        else {
+            chJoueursAllies.add(joueursAlyse);}
         chRoleInconnu = chRoleInconnu.soustraire(joueursAlyse);
         System.out.println("Inconnu : "+chRoleInconnu);
         System.out.println("Mechant : "+chMechants);
@@ -30,11 +29,11 @@ public class Voyante extends Personnage {
     public Personnage actionJour(){
         if (chMechants.isEmpty()){
             System.out.println("no loup");
-            return getPersAleatoire(chRoleInconnu);
+            return (chRoleInconnu).getValeurAleatoire();
         }
         else{
             System.out.println("loup");
-            return getPersAleatoire(chMechants);
+            return (chMechants).getValeurAleatoire();
         }
     }
 

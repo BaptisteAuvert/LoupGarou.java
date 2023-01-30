@@ -37,6 +37,19 @@ public class ListPersonnage extends TreeSet<Personnage>{
         }
         return false;
     }
+
+    public Personnage getValeurAleatoire() {
+        Random random = new Random();
+        if (this.size() > 0) {
+            int randomIndex = random.nextInt(this.size());
+            Iterator iterator = this.iterator();
+            for (int i = 0; i < randomIndex - 1; i++) {
+                iterator.next();
+            }
+            return (Personnage) iterator.next();
+        }
+        return null;
+    }
 }
 
 /*

@@ -1,11 +1,11 @@
 public enum Camps {
-    Village, Loup, Amoureux;
+    Village, Loup, Solo;
 
     public String toString() {
         switch (this) {
             case Village: return "Village";
             case Loup: return "Loup";
-            case Amoureux:return  "Amoureux";
+            case Solo:return  "Solo";
             default : return "unknow";
         }
     }

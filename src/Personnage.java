@@ -1,7 +1,7 @@
 import java.util.*;
 
 public abstract class Personnage implements Comparable<Personnage> {
-    protected ListPersonnage chJoueurGentils = new ListPersonnage();
+    protected ListPersonnage chJoueursAllies = new ListPersonnage();
     protected String chNom;
     protected Partie chPartie;
     protected Statut chStatut = Statut.Vivant;
@@ -24,16 +24,6 @@ public abstract class Personnage implements Comparable<Personnage> {
     public Camps getCamps(){ return chCamps;}
     public Statut getStatut(){ return chStatut;}
 
-    public static Personnage getPersAleatoire(ListPersonnage parList){
-        Random random = new Random();
-        int randomIndex = random.nextInt(parList.size());
-        Iterator iterator = parList.iterator();
-        for (int i=0;i<randomIndex-1;i++){
-            iterator.next();
-        }
-        return (Personnage) iterator.next();
-    }
-
     public void mort(){
         chPartie.afficheInfo("  -"+chNom + " est mort,il etait "+ chCamps);
         chStatut = Statut.Mort;
@@ -42,7 +32,7 @@ public abstract class Personnage implements Comparable<Personnage> {
     public void actionNuit(){}
 
     public Personnage actionJour(){
-        return getPersAleatoire((chPartie.getJoueurVivant().soustraire(chJoueurGentils)));
+        return chPartie.getJoueurVivant().soustraire(chJoueursAllies).getValeurAleatoire();
     }
 
     public void informeMort(Personnage parPersonnage){}
@@ -61,6 +51,6 @@ public abstract class Personnage implements Comparable<Personnage> {
     }
 
     public String toString(){
-        return "Joueur : "+ chNom ;
+        return "Joueur : "+ chNom +" il etais :"+chCamps;
     }
 }

@@ -18,6 +18,7 @@ public class Partie {
     public void nuit() {
         afficheInfo("-----------------------------------------------------------------------------------");
         afficheInfo("Debut de la Nuit n"+chNbJour+++" :");
+        afficheInfo("Il reste "+getJoueurVivant().size()+" joueurs en vie ");
         resetVote();
         for (Iterator iterator = getJoueurVivant().iterator(); iterator.hasNext(); ) {
             Personnage joueur = (Personnage) iterator.next();
@@ -48,13 +49,13 @@ public class Partie {
         boolean fin = false;
         for (Iterator i= chListPerso.iterator();i.hasNext();){
             Personnage joueur = (Personnage) i.next();
-             fin = (fin||joueur.finDeParty());
+             fin = (joueur.finDeParty()||fin);
         }
         return fin;
     }
 
     private void fin(){
-        afficheInfo("Fin de la Partie");
+        afficheInfo("Fin de la Partie, les gagnants sont "+chGagnants);
     }
 
     public void mort(Personnage parPerso){
@@ -83,7 +84,9 @@ public class Partie {
 
 
     public void addVoteLoup(Personnage parPerso){
-        chVote.put(parPerso,chVote.get(parPerso)+1);
+        if (parPerso!=null){
+            chVote.put(parPerso,chVote.get(parPerso)+1);
+        }
     }
 
 
@@ -122,6 +125,10 @@ public class Partie {
 
     public void addGagnant(Personnage parPersonnage){
         chGagnants.add(parPersonnage);
+    }
+
+    public int getJour(){
+        return chNbJour;
     }
 
     public void afficheInfo(String parString){

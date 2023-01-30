@@ -1,24 +1,22 @@
-import java.util.*;
-
 public class EnfantLoup extends Personnage {
     private boolean actionUnique = true;
     private Personnage chModel;
 
     public EnfantLoup(String parNom) {
         super(parNom, Camps.Village,40,Camps.Village);
-        chJoueurGentils.add(this);
+        chJoueursAllies.add(this);
     }
 
     public void actionNuit(){
         if (actionUnique){
             ListPersonnage joueurs = chPartie.getJoueurVivant();
             joueurs.soustraire(this);
-            chModel = getPersAleatoire(joueurs);
+            chModel = (joueurs).getValeurAleatoire();
             chPartie.afficheInfo("L'enfant loup a pris comme modele :"+chModel.chNom);
             actionUnique = false;
         }
         if (chCamps == Camps.Loup){
-            Personnage persoMange = getPersAleatoire(chPartie.getJoueurDuCamp(Camps.Village));
+            Personnage persoMange = chPartie.getJoueurDuCamp(Camps.Village).getValeurAleatoire();
             chPartie.addVoteLoup(persoMange);
         }
     }
@@ -32,7 +30,7 @@ public class EnfantLoup extends Personnage {
     }
 
     public Personnage actionJour(){
-        if (chCamps == Camps.Loup){return getPersAleatoire(chPartie.getJoueurDuCamp(Camps.Village));}
+        if (chCamps == Camps.Loup){return chPartie.getJoueurDuCamp(Camps.Village).getValeurAleatoire();}
         return super.actionJour();
     }
 }
