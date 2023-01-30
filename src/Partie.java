@@ -94,7 +94,7 @@ public class Partie {
         ListPersonnage listPersoDuCamp = new ListPersonnage();
         for (Iterator iterator = getJoueurVivant().iterator();iterator.hasNext();){
             Personnage joueur = (Personnage) iterator.next();
-            if (joueur.getCamps()== parCamps){
+            if (joueur.getCampsVisible()== parCamps ){
                 listPersoDuCamp.add(joueur);
             }
         }
@@ -113,14 +113,18 @@ public class Partie {
     }
 
     public Personnage getMaxVote(Map<Personnage,Integer> parMap){
-        Personnage persoVoteMax = null;
+        ListPersonnage personnagesVoteMax = new ListPersonnage();
         for (Iterator i = parMap.keySet().iterator();i.hasNext();){
             Personnage joueur = (Personnage) i.next();
-            if ((persoVoteMax == null || parMap.get(joueur)>parMap.get(persoVoteMax)) && parMap.get(joueur)!=0){
-                persoVoteMax = joueur;
+            if ((personnagesVoteMax.size()==0 || parMap.get(joueur)>parMap.get(joueur)) && parMap.get(joueur)!=0){
+                personnagesVoteMax = new ListPersonnage();
+                personnagesVoteMax.add(joueur);
+            }
+            else if (parMap.get(joueur)==parMap.get(joueur)){
+                personnagesVoteMax.add(joueur);
             }
         }
-        return persoVoteMax;
+        return personnagesVoteMax.getValeurAleatoire();
     }
 
     public void addGagnant(Personnage parPersonnage){

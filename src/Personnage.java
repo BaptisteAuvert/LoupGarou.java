@@ -20,8 +20,7 @@ public abstract class Personnage implements Comparable<Personnage> {
         chPartie = parPartie;
     }
 
-    public String getNom(){ return chNom;}
-    public Camps getCamps(){ return chCamps;}
+    public Camps getCampsVisible(){ return chCampsVisible;}
     public Statut getStatut(){ return chStatut;}
 
     public void mort(){

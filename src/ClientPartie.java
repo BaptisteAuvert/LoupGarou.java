@@ -4,11 +4,11 @@ public class ClientPartie {
     public static void main(String[] args) {
         ListPersonnage ListPerso = new ListPersonnage();
 
-        for (int i = 1; i < 2; i++) {
+        for (int i = 1; i < 8; i++) {
             ListPerso.add(new Villageois("J" + i ));
         }
-        for (int i = 7; i < 15; i++) {
-            ListPerso.add(new LoupGarouBlanc("J" + i ));
+        for (int i = 8; i < 10; i++) {
+            ListPerso.add(new LoupGarou("J" + i ));
         }
         //ListPerso.add(new Sorciere("Sorciere" ));
         //ListPerso.add(new Chasseur("Chasseur" ));
@@ -16,6 +16,7 @@ public class ClientPartie {
         //ListPerso.add(new Cupidon("Cupidon" ));
         //ListPerso.add(new Voyante("Voyante" ));
         ListPerso.add(new LoupGarouBlanc("Roger"));
+        ListPerso.add(new AngeGardien("Heloise"));
 
 
         Partie partie = new Partie(ListPerso);
